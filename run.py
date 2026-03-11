@@ -55,7 +55,7 @@ def check_batch():
 
         log("Selecting POU: Chennai")
         pou = Select(driver.find_element(By.ID, "ddlPou"))
-        pou.select_by_visible_text("MADURAI")
+        pou.select_by_visible_text("CHENNAI")
 
         time.sleep(1)
 
