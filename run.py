@@ -35,17 +35,27 @@ def check_batch():
     log("Starting ICAI batch check...")
 
     options = Options()
+    options.page_load_strategy = "eager"
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     
     log("Launching Chromium in headless mode...")
     driver = Chrome(options=options)
-
+    driver.set_page_load_timeout(20)
+    
     try:
 
         log("Opening ICAI batch page...")
-        driver.get(URL)
+        from selenium.common.exceptions import TimeoutException
+
+        try:
+            driver.get(URL)
+        except TimeoutException:
+             log("Page load exceeded 20 seconds. Skipping this run.")
+        return
+               
+        #driver.get(URL)
 
         log("Selecting region: Southern")
         region = Select(driver.find_element(By.ID, "ddl_reg"))
